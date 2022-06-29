@@ -1,9 +1,19 @@
 export class EventEmitter {
-  constructor() {}
+  events: { [eventType: string]: Function[] }
+
+  constructor() {
+    this.events = {};
+  }
   register(eventType: string, handler: Function) {
-    throw new Error("Method not implemented.");
+    if (!this.events[eventType]) {
+      this.events[eventType] = []
+    }
+    this.events[eventType].push(handler);
+
   }
   emit(eventType: string, payload: Object) {
-    throw new Error("Method not implemented.");
+    if (this.events[eventType]) {
+      this.events[eventType].forEach(cb => cb(payload));
+    }
   }
 }
